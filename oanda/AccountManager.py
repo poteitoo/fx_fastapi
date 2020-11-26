@@ -1,6 +1,7 @@
 import oandapyV20.endpoints.trades as trades
-import settings
 from oandapyV20 import API
+
+import settings
 
 
 class AccountManager:
