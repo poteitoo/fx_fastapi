@@ -2,7 +2,6 @@ import datetime as dt
 
 import pandas as pd
 
-from db.models import UsdJpyCandle1M
 from oanda import APIClient
 
 
@@ -35,14 +34,3 @@ class Candles(APIClient):
             }
             candles.append(candle)
         return candles
-
-
-if __name__ == "__main__":
-    count_date = dt.date(2020, 11, 23)
-    for _ in range(7):
-        candles = Candles(date=count_date)
-        if candles.values is not None:
-            UsdJpyCandle1M.create_by_list(candles.values, commit_each_time=True)
-
-        count_date += dt.timedelta(days=1)
-        print(candles)
