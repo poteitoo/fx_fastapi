@@ -31,16 +31,24 @@ class BaseCandleMixin:
         try:
             with session_scope() as session:
                 session.add(candle)
-            return candle
-        except IntegrityError:
-            return False
+        except IntegrityError as e:
+            print(f"skipped: {e}")
+        return candle
 
     @classmethod
-    def create_by_list(cls, candle_lst):
-        with session_scope() as session:
+    def create_by_list(cls, candle_lst, commit_each_time=False):
+        if commit_each_time:
             for candle in candle_lst:
-                candle = cls(**candle)
-                session.add(candle)
+                cls.create(**candle)
+            return cls
+        try:
+            with session_scope() as session:
+                for candle in candle_lst:
+                    candle = cls(**candle)
+                    session.add(candle)
+        except IntegrityError as e:
+            print(f"skipped: {e}")
+        return cls
 
     @classmethod
     def get_last_candle(cls):

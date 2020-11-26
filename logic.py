@@ -6,7 +6,7 @@ from db.models import UsdJpyCandle1M
 from oanda import APIClient
 
 
-class Candle(APIClient):
+class Candles(APIClient):
     def __init__(
         self, granularity="M1", date=dt.date(2010, 1, 4), instrument="USD_JPY"
     ):
@@ -38,10 +38,11 @@ class Candle(APIClient):
 
 
 if __name__ == "__main__":
-    count_date = dt.date(2010, 10, 4)
+    count_date = dt.date(2020, 11, 23)
     for _ in range(7):
-        candle = Candle(date=count_date)
-        UsdJpyCandle1M.create_by_list(candle.values)
+        candles = Candles(date=count_date)
+        if candles.values is not None:
+            UsdJpyCandle1M.create_by_list(candles.values, commit_each_time=True)
 
         count_date += dt.timedelta(days=1)
-        print(candle)
+        print(candles)
