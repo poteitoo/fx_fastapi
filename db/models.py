@@ -1,4 +1,3 @@
-import sqlalchemy
 from sqlalchemy import Column, DateTime, Float, Integer, desc
 from sqlalchemy.exc import IntegrityError
 
@@ -6,12 +5,12 @@ from .base import Base, session_scope
 
 
 class BaseCandleMixin:
-    time = sqlalchemy.Column(sqlalchemy.DateTime, primary_key=True, nullable=False)
-    open = sqlalchemy.Column(sqlalchemy.Float)
-    close = sqlalchemy.Column(sqlalchemy.Float)
-    low = sqlalchemy.Column(sqlalchemy.Float)
-    high = sqlalchemy.Column(sqlalchemy.Float)
-    volume = sqlalchemy.Column(sqlalchemy.Integer)
+    time = Column(DateTime, primary_key=True, nullable=False)
+    open = Column(Float)
+    close = Column(Float)
+    low = Column(Float)
+    high = Column(Float)
+    volume = Column(Integer)
 
     @property
     def values(self):
