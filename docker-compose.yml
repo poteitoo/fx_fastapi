@@ -1,27 +1,27 @@
-version: "3.0"
+version: "3.1"
 
 services:
   db:
     build:
       context: .
       dockerfile: Dockerfile.postgres
-    image: od-postgres
-    container_name: od-postgres
+    container_name: fx-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres_kun
+      - POSTGRES_PASSWORD=postgres12345
+      - POSTGRES_DB=fx_postgres
+      - DATABASE_HOST=localhost
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres12345
-      - PGPASSWORD=postgres12345
-      - POSTGRES_DB=dsdojo_db
-      - DATABASE_HOST=localhost
     volumes:
-      - ./docker/db/init:/docker-entrypoint-initdb.d
-      - ./docker/work/data:/tmp/data
+      - ./docker/work/data/postgres:/var/lib/postgresql/data
 
-  # FastAPI
-  backend:
-    container_name: "od-backend"
-    build: Dockerfile.oanda
+  adminer:
+    image: adminer
+    container_name: manager-adminer
     restart: always
-    tty: true
+    ports:
+      - 8080:8080
+    depends_on:
+      - db

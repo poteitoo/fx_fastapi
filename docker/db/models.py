@@ -5,6 +5,7 @@ from .base import Base, session_scope
 
 
 class BaseCandleMixin:
+    __tablename__ = "BaseCandleMixin"
     time = Column(DateTime, primary_key=True, nullable=False)
     open = Column(Float)
     close = Column(Float)
@@ -55,6 +56,17 @@ class BaseCandleMixin:
         with session_scope() as session:
             candle = session.query(cls).order_by(desc(cls.time)).first()
         return candle
+
+    def __repr__(self):
+        return {
+            "table_name": self.__tablename__,
+            "time": self.time,
+            "open": self.open,
+            "close": self.close,
+            "low": self.low,
+            "high": self.high,
+            "volume": self.volume,
+        }
 
 
 class UsdJpyCandle1M(BaseCandleMixin, Base):

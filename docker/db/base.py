@@ -4,19 +4,19 @@ import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-# pgconfig = {
-#     "host": "localhost",
-#     "port": "5432",
-#     "database": "dsdojo_db",
-#     "user": "postgres",
-#     "password": "postgres12345",
-# }
-# DATABASE_URL = "postgresql://{user}:{password}@{host}:{port}/{database}".format(
-#     **pgconfig
-# )
+pgconfig = {
+    "host": "localhost",
+    "port": "5432",
+    "database": "fx_postgres",
+    "user": "postgres_kun",
+    "password": "postgres12345",
+}
+DATABASE_URL = "postgresql://{user}:{password}@{host}:{port}/{database}".format(
+    **pgconfig
+)
 
 
-DATABASE_URL = "sqlite:///./work/data/candles.db"
+# DATABASE_URL = "sqlite:///./work/data/candles.db"
 engine = sqlalchemy.create_engine(DATABASE_URL)
 Base = declarative_base()
 
