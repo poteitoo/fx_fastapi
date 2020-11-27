@@ -1,0 +1,27 @@
+version: "3.0"
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    image: od-postgres
+    container_name: od-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres12345
+      - PGPASSWORD=postgres12345
+      - POSTGRES_DB=dsdojo_db
+      - DATABASE_HOST=localhost
+    volumes:
+      - ./docker/db/init:/docker-entrypoint-initdb.d
+      - ./docker/work/data:/tmp/data
+
+  # FastAPI
+  backend:
+    container_name: "od-backend"
+    build: Dockerfile.oanda
+    restart: always
+    tty: true
